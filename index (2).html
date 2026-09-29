@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CPS Security Supervisor</title>
+<style>
+:root{--p:#7c3aed;--pk:#ec4899;--o:#f97316;--g:#10b981;--r:#f43f5e;--t:#2e1065;--m:#6b5b8a;--bg:#fdf8ff;--b:#eadcfb;--gr:linear-gradient(120deg,#7c3aed,#ec4899 55%,#f97316)}
+*{box-sizing:border-box;margin:0}[hidden]{display:none!important}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--t);line-height:1.55}
+button{font:inherit}a{color:inherit}
+:focus-visible{outline:3px solid var(--pk);outline-offset:2px}
+.w{max-width:1120px;margin:auto;padding:0 20px}
+.ic{width:1.1em;height:1.1em;flex:none}
+.mu{color:var(--m)}
+.gt{background:var(--gr);-webkit-background-clip:text;background-clip:text;color:transparent}
+.nav{position:sticky;top:0;z-index:30;background:rgba(255,255,255,.88);backdrop-filter:blur(12px);border-bottom:1px solid var(--b)}
+.nb{display:flex;align-items:center;gap:18px;height:68px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.15rem;text-decoration:none}
+.brand b{background:var(--gr);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lg{width:38px;height:38px;border-radius:12px;background:var(--gr);color:#fff;display:grid;place-items:center;font-size:1.2rem}
+#nl{display:flex;gap:4px;margin-left:auto}
+#nl a{padding:8px 14px;border-radius:99px;color:var(--m);text-decoration:none;font-weight:600;transition:.2s}
+#nl a:hover{background:#f3e8ff;color:var(--p)}
+.nr{display:flex;align-items:center;gap:10px;position:relative}
+.mb{display:none;border:0;background:#f3e8ff;color:var(--p);width:40px;height:40px;border-radius:12px;font-size:1.3rem;cursor:pointer;place-items:center}
+.av{width:42px;height:42px;border-radius:50%;border:0;background:var(--gr);color:#fff;font-weight:800;cursor:pointer;transition:.2s}.av:hover{transform:scale(1.08)}
+.dd{position:absolute;right:0;top:52px;background:#fff;border:1px solid var(--b);border-radius:16px;box-shadow:0 20px 40px rgba(124,58,237,.2);min-width:220px;padding:8px;animation:pop .2s}
+.dh{padding:10px 12px;display:flex;flex-direction:column;border-bottom:1px solid var(--b);margin-bottom:6px}.dh small{color:var(--m);word-break:break-all}
+.dd button{display:flex;gap:10px;align-items:center;width:100%;padding:10px 12px;border:0;background:none;border-radius:10px;cursor:pointer;color:var(--r);font-weight:700}.dd button:hover{background:#fff1f2}
+.btn{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 22px;border:0;border-radius:14px;font-weight:700;cursor:pointer;text-decoration:none;transition:.25s;background:#f3e8ff;color:var(--p)}
+.btn:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(124,58,237,.28)}
+.btn.pr{background:var(--gr);color:#fff}.btn.dg{background:linear-gradient(120deg,#f43f5e,#f97316);color:#fff}
+.btn.sm{padding:9px 16px;font-size:.92rem}.btn.wide{width:100%}
+.btn:disabled{opacity:.55;cursor:not-allowed;transform:none;box-shadow:none}
+.btn.ld{pointer-events:none;opacity:.85}.btn.ld>*{visibility:hidden}
+.btn.ld::after{content:"";position:absolute;width:20px;height:20px;border:3px solid rgba(255,255,255,.5);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite}
+.lk{border:0;background:none;color:var(--p);font-weight:700;cursor:pointer;text-decoration:underline}
+.hero{overflow:hidden;padding:76px 0 64px;background:radial-gradient(circle at 12% 10%,#f5d0fe,transparent 45%),radial-gradient(circle at 92% 18%,#fed7aa,transparent 40%),radial-gradient(circle at 60% 105%,#bbf7d0,transparent 42%)}
+.hg{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center}
+.big{font-size:clamp(2.1rem,5vw,3.5rem);line-height:1.1;font-weight:900;margin-bottom:8px}
+.hs{font-size:1.25rem;font-weight:700;margin-bottom:14px}
+.hp{max-width:56ch;color:var(--m);font-size:1.05rem;margin-bottom:26px}
+.hb{display:flex;gap:12px;flex-wrap:wrap}
+.mock{background:#fff;border-radius:28px;padding:22px;box-shadow:0 30px 70px rgba(124,58,237,.25);animation:fl 5s ease-in-out infinite}
+.mock h4{margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.mr{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-radius:14px;background:#faf5ff;margin-bottom:10px;font-weight:600}
+.dot{width:10px;height:10px;border-radius:50%;background:var(--g);display:inline-block;margin-right:8px;animation:pulse 1.6s infinite}
+.dot.o{background:var(--o)}.dot.r{background:var(--r)}
+.sb{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-top:-30px;position:relative}
+.sb div{background:#fff;border-radius:20px;padding:18px;text-align:center;border:1px solid var(--b);box-shadow:0 10px 30px rgba(124,58,237,.1)}
+.sb b{display:block;font-size:1.8rem}
+.sec{padding:66px 0}.sec h2{font-size:clamp(1.6rem,3.5vw,2.3rem);margin-bottom:8px}
+.sec>.w>.mu{max-width:62ch;margin-bottom:28px}
+.grid{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
+.fc{background:#fff;border:1px solid var(--b);border-radius:22px;padding:22px;transition:.3s}
+.fc:hover{transform:translateY(-6px);box-shadow:0 18px 40px rgba(124,58,237,.18)}
+.fi{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;color:#fff;background:var(--c,var(--p));margin-bottom:12px;font-size:1.25rem}
+.fc h3{margin-bottom:4px;font-size:1.05rem}.fc p{color:var(--m);font-size:.95rem}
+.cmp{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.cm{border-radius:24px;padding:26px}.cm.a{background:#fff1f2;border:1px solid #fecdd3}.cm.b{background:#ecfdf5;border:1px solid #a7f3d0}
+.cm ul{margin:12px 0 0 18px}.cm li{margin-bottom:6px}
+.alt{background:linear-gradient(180deg,#faf5ff,#fff)}
+.ft2{padding:34px 0;text-align:center;color:var(--m);border-top:1px solid var(--b);font-size:.92rem}
+.ov{position:fixed;inset:0;z-index:50;display:grid;place-items:center;background:rgba(76,29,149,.38);backdrop-filter:blur(6px);padding:16px;overflow:auto}
+.md{position:relative;width:100%;max-width:430px;background:#fff;border-radius:26px;padding:32px 28px;box-shadow:0 30px 80px rgba(124,58,237,.35);animation:pop .3s;text-align:center}
+.md h2{font-size:1.5rem}.sub{color:var(--m);margin:4px 0 18px}
+.x{position:absolute;right:14px;top:14px;width:36px;height:36px;border-radius:50%;border:0;background:#f3e8ff;color:var(--p);cursor:pointer;display:grid;place-items:center}
+.mi{width:64px;height:64px;border-radius:20px;margin:0 auto 12px;display:grid;place-items:center;color:#fff;background:var(--gr);font-size:1.8rem}
+.mi.ok{background:linear-gradient(135deg,#10b981,#34d399)}.mi.wn{background:linear-gradient(135deg,#f43f5e,#f97316)}
+form{text-align:left}.fd{margin-bottom:12px}.fd label{display:block;font-weight:700;font-size:.9rem;margin-bottom:5px}
+.iw{position:relative}
+.iw input{width:100%;padding:12px 44px 12px 14px;border:2px solid var(--b);border-radius:14px;font:inherit;background:#fdfaff;color:var(--t);transition:.2s}
+.iw input:focus{outline:0;border-color:var(--p);box-shadow:0 0 0 4px rgba(124,58,237,.15)}
+.iw input.bad{border-color:var(--r);background:#fff1f2}
+.eye{position:absolute;right:6px;top:50%;transform:translateY(-50%);border:0;background:none;color:var(--m);cursor:pointer;width:36px;height:36px;font-size:1.1rem;display:grid;place-items:center}
+.er{display:block;color:var(--r);font-size:.83rem;font-weight:600;min-height:1em;margin-top:3px}
+.row{text-align:right;margin:-4px 0 12px}.note{font-size:.85rem;color:var(--m);background:#faf5ff;border-radius:12px;padding:10px 12px;margin-bottom:12px}
+.ft{text-align:center;margin-top:14px;color:var(--m);font-size:.93rem}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px}
+#toasts{position:fixed;top:80px;right:16px;z-index:60;display:flex;flex-direction:column;gap:10px;width:min(370px,calc(100vw - 32px));pointer-events:none}
+.ts{--c:var(--p);pointer-events:auto;display:flex;gap:12px;align-items:flex-start;padding:14px 16px;border-radius:16px;background:#fff;border-left:6px solid var(--c);box-shadow:0 14px 36px rgba(46,16,101,.22);animation:sl .35s}
+.ts>.ic{color:var(--c);font-size:1.4rem;margin-top:2px}.ts div{display:flex;flex-direction:column}.ts span{color:var(--m);font-size:.9rem}
+.ts.success{--c:var(--g)}.ts.error{--c:var(--r)}.ts.warning{--c:var(--o)}.ts.info{--c:var(--p)}.ts.out{opacity:0;transform:translateX(30px);transition:.3s}
+.dp{padding:34px 20px 60px}.dh2{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:22px}
+.dh2 h1{font-size:2rem}.dp h2{margin:30px 0 14px;font-size:1.3rem}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px}
+.st{--c:var(--p);display:flex;gap:14px;align-items:center;padding:18px;border-radius:20px;background:#fff;border:1px solid var(--b)}
+.st.g{--c:var(--g)}.st.r{--c:var(--pk)}.st.o{--c:var(--o)}
+.st span{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;color:#fff;background:var(--c);font-size:1.3rem}
+.st b{font-size:1.5rem;display:block;line-height:1.1}.st small{color:var(--m)}
+.cards{display:grid;gap:18px;grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
+.card{background:#fff;border:2px solid var(--b);border-radius:24px;padding:22px;display:flex;flex-direction:column;gap:8px;transition:.3s}
+.card:hover{transform:translateY(-4px);box-shadow:0 18px 40px rgba(124,58,237,.16)}
+.card.attack{border-color:var(--r);animation:alert 1s infinite}.card.rec{border-color:var(--o)}
+.ci{width:50px;height:50px;border-radius:16px;background:var(--c);color:#fff;display:grid;place-items:center;font-size:1.4rem}
+.card h3{font-size:1.15rem}.card .mu{font-size:.9rem}
+.pill{align-self:flex-start;display:inline-flex;align-items:center;gap:7px;padding:5px 12px;border-radius:99px;font-weight:700;font-size:.85rem;background:#d1fae5;color:#047857}
+.pill i{width:8px;height:8px;border-radius:50%;background:currentColor;animation:pulse 1.6s infinite}
+.pill.attack{background:#ffe4e6;color:#be123c}.pill.rec{background:#ffedd5;color:#c2410c}
+.mt{display:flex;justify-content:space-between;font-size:.9rem;color:var(--m)}.mt b{color:var(--t)}
+.bar{height:8px;background:#f3e8ff;border-radius:9px;overflow:hidden}.bar i{display:block;height:100%;background:var(--gr);width:50%;transition:width 1s}
+.am{min-height:1.5em;font-size:.9rem;font-weight:600}
+.lh{display:flex;justify-content:space-between;align-items:center;margin-top:30px}.lh h2{margin:0!important}
+.tw{overflow-x:auto;background:#fff;border:1px solid var(--b);border-radius:20px;margin-top:14px}
+table{width:100%;border-collapse:collapse}th,td{padding:12px 16px;text-align:left;font-size:.92rem;white-space:nowrap}
+th{background:#faf5ff;color:var(--m)}tr+tr td{border-top:1px solid #f3e8ff}
+.k{width:9px;height:9px;border-radius:50%;display:inline-block;margin-right:8px;background:var(--g)}.k.bad{background:var(--r)}.k.warn{background:var(--o)}
+.emp{padding:40px 20px;text-align:center;color:var(--m)}.emp .ic{font-size:2.4rem;color:var(--pk)}
+@keyframes pop{from{opacity:0;transform:scale(.92) translateY(10px)}}
+@keyframes sl{from{opacity:0;transform:translateX(40px)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes fl{50%{transform:translateY(-12px)}}
+@keyframes pulse{50%{opacity:.35}}
+@keyframes alert{50%{box-shadow:0 0 0 6px rgba(244,63,94,.18)}}
+@media(max-width:860px){.hg,.cmp{grid-template-columns:1fr}.mb{display:grid;margin-left:auto}
+#nl{display:none;position:absolute;top:68px;left:0;right:0;background:#fff;flex-direction:column;padding:12px 20px;border-bottom:1px solid var(--b);margin:0}
+.nav.open #nl{display:flex}.nb{gap:10px}.brand{font-size:1rem}}
+@media(max-width:520px){.nr .btn{padding:8px 12px}.hero{padding-top:48px}#toasts{top:76px;right:16px}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div id="toasts" aria-live="polite"></div>
+<header class="nav"><div class="w nb">
+<a class="brand" href="#home"><span class="lg" data-i="shield"></span>CPS <b>Supervisor</b></a>
+<nav id="nl"><a href="#home">Home</a><a href="#about">About</a><a href="#features">Features</a><a href="#modules">Modules</a></nav>
+<div id="navr" class="nr"></div>
+<button class="mb" data-act="menu" aria-label="Menu" data-i="menu"></button>
+</div></header>
+
+<main id="land">
+<section class="hero" id="home"><div class="w hg">
+<div>
+<h1 class="big gt">Protect critical systems from cyber attacks</h1>
+<p class="hs">Monitor, detect and recover in real time.</p>
+<p class="hp">A security supervisor for cyber-physical systems. It authenticates users, monitors operations, simulates attacks and responds with real-time alerts and automatic recovery across smart grids, industry, healthcare, defense and transportation.</p>
+<div class="hb"><button class="btn pr" data-act="signup" data-i="user">Get started free</button><button class="btn" data-act="login" data-i="lock">Log in</button></div>
+</div>
+<div class="mock" aria-hidden="true"><h4><span class="gt" data-i="activity"></span>Live supervisor view</h4>
+<div class="mr"><span><i class="dot"></i>Smart Grid</span><span>Secure</span></div>
+<div class="mr"><span><i class="dot r"></i>Industrial Automation</span><span>Attack detected</span></div>
+<div class="mr"><span><i class="dot o"></i>Healthcare</span><span>Recovering</span></div>
+<div class="mr"><span><i class="dot"></i>Transportation</span><span>Secure</span></div></div>
+</div></section>
+<div class="w sb"><div><b class="gt">5</b>CPS domains</div><div><b class="gt">7</b>Core modules</div><div><b class="gt">9</b>Key features</div><div><b class="gt">Live</b>Alerts &amp; recovery</div></div>
+
+<section class="sec" id="about"><div class="w">
+<h2>Security that covers both layers</h2>
+<p class="mu">Connected machines, grids and devices can be attacked through software and damaged in the physical world. The Supervisor watches both.</p>
+<div class="cmp"><div class="cm a"><h3>Without a supervisor</h3><ul><li>Reactive: attacks found only after damage</li><li>Static rules and manual intervention</li><li>Weak validation between sensors and controllers</li><li>Slow, manual recovery</li></ul></div>
+<div class="cm b"><h3>With CPS Supervisor</h3><ul><li>Continuous real-time monitoring</li><li>Automatic detection, isolation and response</li><li>Verified cyber-physical data flow</li><li>Fast recovery with alerts and audit logs</li></ul></div></div>
+</div></section>
+
+<section class="sec alt" id="features"><div class="w"><h2>Features</h2><p class="mu">Everything the proposed system offers to keep critical infrastructure running safely.</p><div class="grid" id="fg"></div></div></section>
+<section class="sec" id="modules"><div class="w"><h2>How it works</h2><p class="mu">Seven components take data from input to alert.</p><div class="grid" id="mg"></div></div></section>
+<section class="sec alt"><div class="w"><h2>Protected domains</h2><p class="mu">Log in to simulate attacks on each domain and watch the supervisor respond.</p><div class="grid" id="dm"></div></div></section>
+<footer class="ft2">&copy; 2026 CPS Security Supervisor. Real-time protection for critical infrastructure.</footer>
+</main>
+<main id="dash" hidden></main>
+
+<div class="ov" id="ov" hidden>
+<div class="md" id="m-login" hidden role="dialog" aria-modal="true" aria-label="Log in"><button class="x" data-close aria-label="Close" data-i="x"></button><div class="mi" data-i="lock"></div><h2>Welcome back</h2><p class="sub">Log in to open the Security Supervisor dashboard.</p><form id="f-login" novalidate></form><p class="ft">New here? <button class="lk" type="button" data-act="signup">Create an account</button></p></div>
+<div class="md" id="m-signup" hidden role="dialog" aria-modal="true" aria-label="Sign up"><button class="x" data-close aria-label="Close" data-i="x"></button><div class="mi" data-i="user"></div><h2>Create your account</h2><p class="sub">Register to monitor and protect CPS domains.</p><form id="f-signup" novalidate></form><p class="ft">Already registered? <button class="lk" type="button" data-act="login">Log in</button></p></div>
+<div class="md" id="m-forgot" hidden role="dialog" aria-modal="true" aria-label="Reset password"><button class="x" data-close aria-label="Close" data-i="x"></button><div class="mi" data-i="mail"></div><h2>Reset password</h2><p class="sub">Confirm your email, then choose a new password.</p><form id="f-forgot" novalidate></form><p class="ft"><button class="lk" type="button" data-act="login">Back to log in</button></p></div>
+<div class="md" id="m-welcome" hidden role="dialog" aria-modal="true" aria-label="Welcome"><div class="mi ok" data-i="check"></div><h2 id="w-t"></h2><p class="sub">You are logged in. The Supervisor is monitoring all five CPS domains.</p><button class="btn pr wide" data-close>Open dashboard</button></div>
+<div class="md" id="m-confirm" hidden role="alertdialog" aria-modal="true" aria-label="Confirm"><div class="mi wn" data-i="alert"></div><h2 id="c-t"></h2><p class="sub" id="c-p"></p><div class="row2"><button class="btn" data-close>Cancel</button><button class="btn dg" id="c-ok">OK</button></div></div>
+</div>
+
+<script>
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const P={shield:'<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>',zap:'<path d="M13 2 3 14h9l-1 8 10-12h-9z"/>',factory:'<path d="M2 20V9l6 4V9l6 4V4h4v16z"/>',activity:'<path d="M3 12h4l3-8 4 16 3-8h4"/>',defense:'<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M12 8v4M12 16h.01"/>',train:'<rect x="4" y="3" width="16" height="14" rx="3"/><path d="M4 11h16M8 21l2-4M16 21l-2-4"/>',eye:'<path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',eyeoff:'<path d="M3 3l18 18M10.6 6.1A10 10 0 0 1 12 6c6 0 10 6 10 6a17 17 0 0 1-3 3.6M6.6 6.6C3.7 8.4 2 12 2 12s4 7 10 7c1.6 0 3-.4 4.2-1"/>',user:'<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/>',logout:'<path d="M9 21H5V3h4M16 17l5-5-5-5M21 12H9"/>',check:'<path d="M20 6 9 17l-5-5"/>',x:'<path d="M18 6 6 18M6 6l12 12"/>',alert:'<path d="M12 3 2 21h20z"/><path d="M12 10v5M12 18h.01"/>',info:'<circle cx="12" cy="12" r="10"/><path d="M12 11v6M12 7h.01"/>',mail:'<rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 6 10 7 10-7"/>',lock:'<rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>',cpu:'<rect x="5" y="5" width="14" height="14" rx="2"/><path d="M9 9h6v6H9zM9 1v4M15 1v4M9 19v4M15 19v4M1 9h4M1 15h4M19 9h4M19 15h4"/>',refresh:'<path d="M21 12a9 9 0 1 1-3-6.7L21 8M21 3v5h-5"/>',bell:'<path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9M10 21h4"/>',layers:'<path d="m12 2 10 5-10 5L2 7z"/><path d="m2 17 10 5 10-5M2 12l10 5 10-5"/>',trash:'<path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/>',menu:'<path d="M3 6h18M3 12h18M3 18h18"/>'};
+const I=n=>`<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${P[n]}</svg>`;
+const esc=t=>String(t).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const wait=ms=>new Promise(r=>setTimeout(r,ms));
+const store={get(k,d){try{const v=JSON.parse(localStorage.getItem(k));return v==null?d:v}catch{return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v));return true}catch{return false}}};
+const sess={get(){try{return JSON.parse(sessionStorage.getItem('cps_s'))}catch{return null}},set(v){sessionStorage.setItem('cps_s',JSON.stringify(v))},clear(){try{sessionStorage.removeItem('cps_s')}catch{}}};
+const users=()=>{const u=store.get('cps_users',[]);return Array.isArray(u)?u:[]};
+const rnd=()=>[...crypto.getRandomValues(new Uint8Array(12))].map(b=>b.toString(16).padStart(2,'0')).join('');
+async function hash(p,s){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s+':'+p));return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')}
+
+/* ---------- content ---------- */
+const COL=['#7c3aed','#ec4899','#f97316','#10b981'];
+const FEAT=[['activity','Real-time monitoring','Watches data flow and control signals between sensors, actuators and controllers.'],['cpu','Intelligent anomaly detection','Spots unusual activity that may signal an attack or a fault.'],['zap','Automated threat response','Isolates the affected part and blocks bad traffic without manual work.'],['lock','Secure communication','Data between cyber and physical layers is validated to keep it intact.'],['refresh','Adaptive learning','Learns from past attacks to improve future defence.'],['layers','Cyber-physical coordination','Every command is checked against expected system behaviour.'],['shield','High resilience','Quick recovery keeps downtime low and operation continuous.'],['bell','Alerts and reporting','Tells administrators what was found, what was done and the current status.'],['factory','Scalable and flexible','Fits industrial, smart-grid, transport and healthcare setups.']];
+const MODS=[['Input','Collects and validates data from sensors, actuators, networks and users.','activity'],['Processing / Analysis','Finds anomalies and unusual patterns in readings and traffic.','cpu'],['Decision / Response','Chooses to isolate, back up or alert when an anomaly appears.','zap'],['Output','Produces alerts, reports, dashboards and logs.','bell'],['Security','Handles authentication, encryption and access control.','lock'],['Database','Stores readings, users, logs and attack history.','layers'],['User Interface','Web interface to monitor status, view alerts and manage access.','user']];
+const SYS=[{id:'grid',n:'Smart Grid',i:'zap',c:'#f97316',d:'Power distribution and load balancing',m:'Voltage',u:'V',b:230},{id:'industrial',n:'Industrial Automation',i:'factory',c:'#7c3aed',d:'Plant machinery and process control',m:'Pressure',u:'bar',b:5},{id:'healthcare',n:'Healthcare',i:'activity',c:'#ec4899',d:'Patient monitoring and medical devices',m:'Vitals feed',u:'bpm',b:72},{id:'defense',n:'Defense Systems',i:'defense',c:'#10b981',d:'Secure command and sensor networks',m:'Signal integrity',u:'%',b:98},{id:'transport',n:'Transportation',i:'train',c:'#a855f7',d:'Rail and traffic control systems',m:'Speed',u:'km/h',b:80}];
+const ATK=['False sensor data injection','Control channel manipulation','Man-in-the-middle on a sensor link'];
+
+/* ---------- ui helpers ---------- */
+function toast(type,title,msg){const w=$('#toasts');while(w.children.length>=3)w.firstChild.remove();const d=document.createElement('div');d.className='ts '+type;d.innerHTML=I({success:'check',error:'alert',warning:'alert',info:'info'}[type])+'<div><b></b><span></span></div>';d.querySelector('b').textContent=title;d.querySelector('span').textContent=msg||'';w.append(d);setTimeout(()=>{d.classList.add('out');setTimeout(()=>d.remove(),300)},3800)}
+let pend=null;
+function closeM(){$('#ov').hidden=true;if(pend){const p=pend;pend=null;p(false)}}
+function openM(id){$$('.md').forEach(m=>m.hidden=m.id!==id);$$('#'+id+' .er').forEach(x=>x.textContent='');$$('#'+id+' input.bad').forEach(x=>x.classList.remove('bad'));if(id==='m-forgot')fpReset();$('#ov').hidden=false;const f=$('#'+id+' input:not([hidden])');if(f)setTimeout(()=>f.focus(),60)}
+function ask(title,text,ok){return new Promise(res=>{$('#c-t').textContent=title;$('#c-p').textContent=text;$('#c-ok').textContent=ok;openM('m-confirm');pend=res})}
+$('#c-ok').onclick=()=>{const p=pend;pend=null;closeM();p&&p(true)};
+const busy=(b,on)=>{b.classList.toggle('ld',!!on);b.disabled=!!on};
+const fld=(id,l,t,ph,ac)=>`<div class="fd"><label for="${id}">${l}</label><div class="iw"><input id="${id}" type="${t}" placeholder="${ph}" autocomplete="${ac}">${t==='password'?`<button type="button" class="eye" data-eye="${id}" aria-label="Show password">${I('eye')}</button>`:''}</div><small class="er" id="${id}-e"></small></div>`;
+const setErr=(id,m)=>{$('#'+id+'-e').textContent=m;$('#'+id).classList.toggle('bad',!!m)};
+const V={name:v=>v.trim().length<2?'Enter your full name (2+ characters).':'',email:v=>/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim())?'':'Enter a valid email address.',pw:v=>v.length<8?'Use at least 8 characters.':(!/[A-Za-z]/.test(v)||!/\d/.test(v))?'Use both letters and numbers.':''};
+const check=l=>{let ok=true;l.forEach(([id,fn])=>{const m=fn($('#'+id).value);setErr(id,m);if(m)ok=false});return ok};
+
+/* ---------- auth ---------- */
+$('#f-login').innerHTML=fld('l-email','Email address','email','you@example.com','username')+fld('l-pw','Password','password','Your password','current-password')+'<div class="row"><button type="button" class="lk" data-act="forgot">Forgot password?</button></div><button class="btn pr wide" type="submit"><span>Log in</span></button>';
+$('#f-signup').innerHTML=fld('s-name','Full name','text','Your name','name')+fld('s-email','Email address','email','you@example.com','email')+fld('s-pw','Password','password','8+ characters, letters and numbers','new-password')+fld('s-pw2','Confirm password','password','Repeat password','new-password')+'<button class="btn pr wide" type="submit"><span>Create account</span></button>';
+$('#f-forgot').innerHTML='<div id="fp1">'+fld('f-email','Account email','email','you@example.com','email')+'</div><div id="fp2" hidden>'+fld('f-pw','New password','password','8+ characters, letters and numbers','new-password')+fld('f-pw2','Confirm new password','password','Repeat password','new-password')+'</div><p class="note">This project has no email server, so the reset happens directly in this browser.</p><button class="btn pr wide" type="submit"><span id="fp-b">Continue</span></button>';
+let fpEmail=null;
+function fpReset(){fpEmail=null;$('#fp1').hidden=false;$('#fp2').hidden=true;$('#fp-b').textContent='Continue'}
+const noKey='Secure hashing needs a modern browser (Chrome, Edge or Firefox).';
+
+$('#f-login').onsubmit=async e=>{e.preventDefault();
+ const em=$('#l-email').value.trim().toLowerCase(),pw=$('#l-pw').value;
+ if(!check([['l-email',V.email],['l-pw',v=>v?'':'Enter your password.']]))return;
+ const b=$('#f-login [type=submit]');busy(b,1);await wait(500);
+ try{const u=users().find(x=>x.email===em);
+  if(!u||await hash(pw,u.salt)!==u.hash){setErr('l-pw','Invalid email or password.');toast('error','Login failed','Invalid email or password.');return}
+  sess.set({name:u.name,email:u.email});$('#f-login').reset();closeM();go('#dashboard');$('#w-t').textContent='Welcome, '+u.name.split(' ')[0]+'!';openM('m-welcome');
+ }catch{toast('error','Login failed',noKey)}finally{busy(b,0)}};
+
+$('#f-signup').onsubmit=async e=>{e.preventDefault();
+ const n=$('#s-name').value.trim(),em=$('#s-email').value.trim().toLowerCase(),pw=$('#s-pw').value;
+ let ok=check([['s-name',V.name],['s-email',V.email],['s-pw',V.pw]]);
+ if(pw!==$('#s-pw2').value){setErr('s-pw2','Passwords do not match.');ok=false}else setErr('s-pw2','');
+ if(!ok)return;
+ const b=$('#f-signup [type=submit]');busy(b,1);await wait(500);
+ try{const us=users();
+  if(us.some(u=>u.email===em)){setErr('s-email','This email is already registered.');toast('error','Sign up failed','An account with this email already exists.');return}
+  const salt=rnd();us.push({name:n,email:em,salt,hash:await hash(pw,salt),created:Date.now()});
+  if(!store.set('cps_users',us)){toast('error','Sign up failed','Your browser blocked storage, so the account was not saved.');return}
+  $('#f-signup').reset();openM('m-login');$('#l-email').value=em;toast('success','Account created','Log in with your new account.');
+ }catch{toast('error','Sign up failed',noKey)}finally{busy(b,0)}};
+
+$('#f-forgot').onsubmit=async e=>{e.preventDefault();
+ if(!fpEmail){
+  if(!check([['f-email',V.email]]))return;const em=$('#f-email').value.trim().toLowerCase();
+  if(!users().some(u=>u.email===em)){setErr('f-email','No account uses this email.');toast('error','Email not found','Check the address or create a new account.');return}
+  fpEmail=em;$('#fp1').hidden=true;$('#fp2').hidden=false;$('#fp-b').textContent='Save new password';toast('info','Email confirmed','Choose a new password.');return}
+ let ok=check([['f-pw',V.pw]]);const pw=$('#f-pw').value;
+ if(pw!==$('#f-pw2').value){setErr('f-pw2','Passwords do not match.');ok=false}else setErr('f-pw2','');
+ if(!ok)return;
+ const b=$('#f-forgot [type=submit]');busy(b,1);await wait(500);
+ try{const us=users(),u=us.find(x=>x.email===fpEmail);if(!u){toast('error','Reset failed','Account not found.');return}
+  u.salt=rnd();u.hash=await hash(pw,u.salt);
+  if(!store.set('cps_users',us)){toast('error','Reset failed','Your browser blocked storage, so the password was not changed.');return}
+  const em=fpEmail;$('#f-forgot').reset();openM('m-login');$('#l-email').value=em;toast('success','Password updated','Log in with your new password.');
+ }catch{toast('error','Reset failed',noKey)}finally{busy(b,0)}};
+
+async function logout(){const d=$('#dd');if(d)d.hidden=true;
+ if(await ask('Log out?','You will need to log in again to reach the dashboard.','Logout')){sess.clear();stopSim();toast('success','Logged out','You have been signed out safely.');if(location.hash==='#login')route();else location.hash='#login'}}
+
+/* ---------- routing / guard ---------- */
+let lastView=null;
+const go=h=>location.hash===h?route():(location.hash=h);
+function route(){const s=sess.get();
+ if(location.hash==='#dashboard'&&!s){history.replaceState(null,'','#login');toast('warning','Login required','Please log in to open the dashboard.')}
+ if(location.hash==='#login'&&s)history.replaceState(null,'','#dashboard');
+ const showDash=!!s&&location.hash==='#dashboard';
+ $('#land').hidden=showDash;$('#dash').hidden=!showDash;renderNav(s);
+ if(showDash){if(!iv){renderDash(s);startSim()}}else stopSim();
+ if(lastView!==null&&lastView!==showDash)window.scrollTo(0,0);lastView=showDash;
+ if(location.hash==='#login'&&!s)openM('m-login')}
+function renderNav(s){$('#navr').innerHTML=s?`<a class="btn pr sm" href="#dashboard">${I('layers')} Dashboard</a><button class="av" data-act="profile" aria-label="Profile menu">${esc(s.name[0].toUpperCase())}</button><div class="dd" id="dd" hidden><div class="dh"><b>${esc(s.name)}</b><small>${esc(s.email)}</small></div><button data-act="logout">${I('logout')} Logout</button></div>`:'<button class="btn sm" data-act="login">Log in</button><button class="btn pr sm" data-act="signup">Sign up</button>'}
+
+/* ---------- dashboard ---------- */
+let iv=null,tm=[],st={},msg={},val={},logs=[],stt={det:0,rec:0,sc:0};
+function renderDash(s){logs=store.get('cps_log',[]);stt=Object.assign({det:0,rec:0,sc:0},store.get('cps_st',{}));
+ $('#dash').innerHTML=`<div class="w dp"><div class="dh2"><div><p class="mu">Security operations</p><h1>Hello, <span class="gt">${esc(s.name.split(' ')[0])}</span></h1><p class="mu">The Supervisor is monitoring all CPS domains in real time.</p></div><button class="btn" data-act="reset">${I('refresh')} Reset systems</button></div><div class="stats" id="stats"></div><h2>CPS domains</h2><div class="cards" id="cards"></div><div class="lh"><h2>Threat and action log</h2><button class="btn sm" data-act="clear">${I('trash')} Clear log</button></div><div class="tw" id="log"></div></div>`}
+function startSim(){stopSim();SYS.forEach(x=>st[x.id]='secure');paint();tick();iv=setInterval(tick,1500)}
+function stopSim(){clearInterval(iv);iv=null;tm.forEach(clearTimeout);tm=[];st={};msg={}}
+function paint(){if(!$('#cards'))return;
+ const L={secure:'Secure',attack:'Under Attack!',rec:'Recovering'};
+ $('#cards').innerHTML=SYS.map(x=>{const s=st[x.id]||'secure';return `<article class="card ${s}"><div class="ci" style="--c:${x.c}">${I(x.i)}</div><h3>${x.n}</h3><p class="mu">${x.d}</p><div class="pill ${s}"><i></i>${L[s]}</div><div class="mt"><span>${x.m}</span><b id="v-${x.id}"></b></div><div class="bar"><i id="b-${x.id}"></i></div><p class="am">${esc(msg[x.id]||'')}</p><button class="btn pr sm" data-act="attack" data-id="${x.id}" ${s!=='secure'?'disabled':''}>${I('zap')} Simulate attack</button></article>`}).join('');
+ const n=SYS.filter(x=>(st[x.id]||'secure')==='secure').length;
+ $('#stats').innerHTML=[['shield','Systems secure',n+'/5','g'],['alert','Attacks detected',stt.det,'r'],['refresh','Recoveries',stt.rec,'p'],['activity','Scans run',stt.sc,'o']].map(([i,l,v,c])=>`<div class="st ${c}"><span>${I(i)}</span><div><b>${v}</b><small>${l}</small></div></div>`).join('');
+ $('#log').innerHTML=logs.length?`<table><thead><tr><th>Time</th><th>System</th><th>Event</th><th>Action taken</th></tr></thead><tbody>${logs.slice(0,8).map(l=>`<tr><td>${new Date(l.t).toLocaleTimeString()}</td><td>${esc(l.s)}</td><td><i class="k ${l.k}"></i>${esc(l.e)}</td><td>${esc(l.a)}</td></tr>`).join('')}</tbody></table>`:`<div class="emp">${I('shield')}<p>No security events yet. Run a simulation to see the Supervisor respond.</p></div>`;tick()}
+function tick(){SYS.forEach(x=>{const j=st[x.id]==='attack'?Math.random()*.7-.1:Math.random()*.06-.03,v=x.b*(1+j),e=$('#v-'+x.id),b=$('#b-'+x.id);if(e)e.textContent=v.toFixed(1)+' '+x.u;if(b)b.style.width=Math.min(100,v/(x.b*1.6)*100)+'%'})}
+function log(s,e,a,k){logs.unshift({t:Date.now(),s,e,a,k});logs.length=Math.min(logs.length,50);if(!store.set('cps_log',logs)||!store.set('cps_st',stt))toast('error','Not saved','Browser storage is blocked, so history will not persist.')}
+function attack(id){if(!sess.get())return route();if((st[id]||'secure')!=='secure')return;const x=SYS.find(y=>y.id===id);stt.sc++;
+ if(Math.random()>=.7){msg[id]='System normal. No threats detected.';log(x.n,'Scan complete','No threats detected','ok');toast('success',x.n,'System normal. No threats detected.');paint();return}
+ const a=ATK[Math.floor(Math.random()*ATK.length)];stt.det++;st[id]='attack';msg[id]='Attack detected! Security Supervisor activated.';
+ log(x.n,'Attack detected: '+a,'Supervisor activated','bad');toast('error',x.n+' under attack',a+'.');paint();
+ tm.push(setTimeout(()=>{st[id]='rec';msg[id]='Compromised node isolated. Backup active.';log(x.n,'Threat contained','Node isolated, backup activated','warn');paint()},2200));
+ tm.push(setTimeout(()=>{st[id]='secure';msg[id]='';stt.rec++;log(x.n,'System recovered','Normal operation restored','ok');toast('success',x.n+' recovered','Normal operation restored.');paint()},5000))}
+async function resetAll(){if(!await ask('Reset all systems?','Any active attack simulation will stop and every domain returns to Secure.','Reset'))return;tm.forEach(clearTimeout);tm=[];SYS.forEach(x=>st[x.id]='secure');msg={};paint();toast('success','Systems reset','All domains are secure.')}
+async function clearLog(){if(!logs.length)return toast('info','Log is empty','There are no events to clear.');if(!await ask('Clear the event log?','All recorded threat and action entries will be deleted.','Clear log'))return;logs=[];if(!store.set('cps_log',logs))return toast('error','Not cleared','Browser storage is blocked.');paint();toast('success','Log cleared','All events were deleted.')}
+
+/* ---------- events ---------- */
+document.addEventListener('click',e=>{
+ if(!e.target.closest('.nr')&&$('#dd'))$('#dd').hidden=true;
+ if(e.target.closest('#nl a'))$('.nav').classList.remove('open');
+ const eye=e.target.closest('[data-eye]');
+ if(eye){const i=$('#'+eye.dataset.eye),h=i.type==='password';i.type=h?'text':'password';eye.innerHTML=I(h?'eyeoff':'eye');eye.setAttribute('aria-label',h?'Hide password':'Show password');return}
+ if(e.target.closest('[data-close]')||e.target===$('#ov'))return closeM();
+ const a=e.target.closest('[data-act]');if(!a)return;const s=sess.get();
+ const A={login:()=>s?go('#dashboard'):openM('m-login'),signup:()=>s?go('#dashboard'):openM('m-signup'),forgot:()=>openM('m-forgot'),logout,profile:()=>{$('#dd').hidden=!$('#dd').hidden},menu:()=>$('.nav').classList.toggle('open'),attack:()=>attack(a.dataset.id),reset:resetAll,clear:clearLog};
+ (A[a.dataset.act]||(()=>{}))()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#ov').hidden)closeM()});
+window.addEventListener('hashchange',route);
+
+$$('[data-i]').forEach(e=>e.insertAdjacentHTML('afterbegin',I(e.dataset.i)));
+$('#fg').innerHTML=FEAT.map((f,i)=>`<div class="fc"><div class="fi" style="--c:${COL[i%4]}">${I(f[0])}</div><h3>${f[1]}</h3><p>${f[2]}</p></div>`).join('');
+$('#mg').innerHTML=MODS.map((f,i)=>`<div class="fc"><div class="fi" style="--c:${COL[(i+1)%4]}">${I(f[2])}</div><h3>${f[0]}</h3><p>${f[1]}</p></div>`).join('');
+$('#dm').innerHTML=SYS.map(x=>`<div class="fc"><div class="fi" style="--c:${x.c}">${I(x.i)}</div><h3>${x.n}</h3><p>${x.d}</p></div>`).join('');
+route();
+</script>
+</body>
+</html>
